@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/srv/frontend
+    restart: always
+    command: npm start
+    networks: 
+      - projeto-fullstack
+    depends_on:
+      - backend
+  backend:
+    build: ./backend
+    container_name: backend
+    ports: 
+      - "3001:3001"
+    volumes:
+      - ./backend:/srv/backend
+    restart: always
+    command: npm run dev
+    networks: 
+      - projeto-fullstack
+
+networks:
+  projeto-fullstack:
+    driver: bridge
+    name: projeto-fullstack
