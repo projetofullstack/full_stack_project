@@ -7,7 +7,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/srv/frontend
+      - ./frontend/public:/srv/frontend/public
+      - ./frontend/src:/srv/frontend/src
+      - ./frontend/package.json:/srv/frontend/package.json
+      - ./frontend/package-lock.json:/srv/frontend/package-lock.json
+      - ./frontend/.eslintrc.json:/srv/frontend/.eslintrc.json
     restart: always
     command: bash -c "npm install && npm start"
     networks: 
@@ -20,7 +24,10 @@ services:
     ports: 
       - "3001:3001"
     volumes:
-      - ./backend:/srv/backend
+      - ./backend/src:/srv/backend/src
+      - ./backend/package.json:/srv/backend/package.json
+      - ./backend/package-lock.json:/srv/backend/package-lock.json
+      - ./backend/.eslintrc.json:/srv/backend/.eslintrc.json
     restart: always
     command: bash -c "npm install && npm run dev"
     networks: 
