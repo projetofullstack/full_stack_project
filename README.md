@@ -16,11 +16,13 @@ docker-compose exec -it backend bash  // para acessar o container do serviço ba
 
 [Link video - Configurações inicias do docker-compose](https://www.youtube.com/watch?v=TdmMbss30_g)
 
-## Endereço dos serviços
+## Endereços dos serviços
 - Porta do serviço frontend: 3000
 - Porta do serviço backend: 3001
 
 ## Estrutura Inicial do Projeto:
+
+[Link video - Estrutura Inicial do Projeto ](https://www.youtube.com/watch?v=lJjC97FPeIM)
 
 Um diretorio default engloba toda a aplicação e os dois serviços: de frontend e de backend. 
 Cada um dos serviços está em um diretório separado e em um respectivo container. Caso seja necessário adicionar ou remover pacotes, deve-se acessar o respectivo container de cada serviço.
