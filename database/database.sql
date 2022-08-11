@@ -10,3 +10,8 @@ CREATE TABLE fullstack_database.users(
     password VARCHAR(12) NOT NULL,
 	PRIMARY KEY(user_id)
 ) engine = InnoDB;
+
+INSERT INTO fullstack_database.users(user, email, password)
+VALUES('pedrocaldas', 'pedro@mail.com', 'senha1234'),
+('isaacalmeida', 'isaac@mail.com', 'senha1234'),
+('danielmd', 'md@mail.com', 'senha1234');
