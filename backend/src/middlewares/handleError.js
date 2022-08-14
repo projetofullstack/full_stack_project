@@ -3,7 +3,8 @@ const handleError = (err, _req, res, _next) => {
   if (err.statusCode !== undefined) {
     return res.status(err.statusCode).json({ message: err.message });
   }
-  console.log(err);
+  const { log } = console;
+  log('Gerado pelo middleware de error', err);
   return res.status(500).json({ message: 'Internal Server Error' });
 };
 

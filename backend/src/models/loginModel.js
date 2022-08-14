@@ -8,6 +8,7 @@ const login = async (dataLogin) => {
     const query = 'SELECT * FROM user WHERE user_email = ?';
 
     const [[result]] = await connection.execute(query, [email]);
+
     if (result === undefined) return null;
 
     if (Object.values(result).length === 0) return null;

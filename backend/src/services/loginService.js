@@ -7,9 +7,9 @@ const { ErrorClient } = require('../utils');
 const { SECRET_CRYPTO } = process.env;
 
 const login = async (dataLogin) => {
-  const check = loginSchema.validateDataLogin(dataLogin);
-
   const Gambler = new ErrorClient();
+
+  const check = loginSchema.validateDataLogin(dataLogin);
 
   if (check.ok === false) {
     throw Gambler.badRequest(check.message);
@@ -17,12 +17,12 @@ const login = async (dataLogin) => {
 
   const result = await loginModel(dataLogin);
 
-  if (result.error === true) {
-    throw Gambler.badRequest();
-  }
-
   if (result === null) {
     throw Gambler.badRequest('User not found');
+  }
+
+  if (result.error === true) {
+    throw Gambler.internalServerError();
   }
 
   const { password } = dataLogin;

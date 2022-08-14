@@ -1,11 +1,9 @@
 const rescue = require('express-rescue');
 const { userService } = require('../services');
 
-const create = rescue(async (req, res, next) => {
+const create = rescue(async (req, res) => {
   const { email, name, password } = req.body;
   const result = await userService.create({ email, name, password });
-
-  if (result.type === 'error') return next(result);
 
   return res.status(result.statusCode).json({
     id: result.message,
