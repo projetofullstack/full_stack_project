@@ -21,5 +21,5 @@ VALUES
     '20db4ab0-c100-4af8-afcd-3108b398431f',
     'Márcio Daniel',
     'marcio.daniel@betrybe.com',
-    'U2FsdGVkX18M0APF6vcoR1j8kZkkbcUAUmrUk292BeE='
+    'U2FsdGVkX1+hdnlO2gVlCXzhptUKmLSjN017jtM5PLs='
   )
