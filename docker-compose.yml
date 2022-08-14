@@ -28,10 +28,23 @@ services:
       - ./backend/package.json:/srv/backend/package.json
       - ./backend/package-lock.json:/srv/backend/package-lock.json
       - ./backend/.eslintrc.json:/srv/backend/.eslintrc.json
+      - ./backend/.env:/srv/backend/.env
     restart: always
     command: bash -c "npm install && npm run dev"
     networks: 
       - projeto-fullstack
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    container_name: fullstack_db
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+    networks: 
+     - projeto-fullstack
 
 networks:
   projeto-fullstack:
