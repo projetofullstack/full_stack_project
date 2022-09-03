@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY_JWT = process.env.SECRET_KEY_JWT || 'secret';
-
 const headers = {
   algorithm: 'HS256',
-  expiresIn: '1d',
+  expiresIn: '14d',
 };
 
-const createToken = (payload) => jwt.sign(payload, SECRET_KEY_JWT, headers);
+// expiresIn: aceita ms, s, m, h, d, w, y (ex: 1d, 1h, 1y)
+// ou seconds, minutes, hours, days, weeks, years (ex: 1 days, 1 hours, 1 years)
+// por padrão uma numeração será considerada milessegundos
 
-module.exports = createToken;
+module.exports = (payload) => jwt.sign(payload, process.env.SECRET_KEY_JWT, headers);

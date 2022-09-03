@@ -21,3 +21,9 @@ const validateDataLogin = (data) => {
 module.exports = {
   validateDataLogin,
 };
+
+// message: error.details[0].message,
+// vai dentro do objeto com key details
+// é possível também acessar a msg
+// apenas com
+// também funciona// message: error.message,  <<<< i

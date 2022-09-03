@@ -1,33 +1,29 @@
-const { v4: uuidv4 } = require('uuid');
-const CryptoJS = require('crypto-js');
+/* const { v4: uuidv4 } = require('uuid');
+const CryptoJS = require('crypto-js'); */
 const { userModel } = require('../models');
-const { userSchema } = require('../schemas');
+const { userSchema } = require('../schemas'); // validateCreateUser
 const { ErrorClient } = require('../utils');
+const createToken = require('../auth/createToken');
 
-const { SECRET_CRYPTO } = process.env;
+const create = async ({ email, name, password }) => {
+  const errorClient = new ErrorClient();
+  const checkData = userSchema.validateCreateUser({ email, name, password });
+  if (checkData.ok === false) throw errorClient.badRequest(checkData.message);
 
-const create = async (dataUser) => {
-  const check = userSchema.validateCreateUser(dataUser);
+  const checkEmailDb = await userModel.getUserByEmail(email);
 
-  const Gambler = new ErrorClient();
+  console.log(checkEmailDb);
+  // [null]
 
-  if (check.ok === false) throw Gambler.badRequest(check.message);
+  if (checkEmailDb !== null) throw errorClient.conflict('Email já utilizado');
 
-  const user = await userModel.getUserByEmail(dataUser.email);
+  const { id } = await userModel.create({ email, name, password });
 
-  if (user !== null) throw Gambler.conflict('Email already registered');
-
-  const { password } = dataUser;
-
-  const cryptoPassword = CryptoJS.AES.encrypt(password, SECRET_CRYPTO).toString();
-
-  const result = await userModel.create({ id: uuidv4(), ...dataUser, password: cryptoPassword });
-
-  if (result === null) throw Gambler.internalServerError();
+  if (id === undefined) throw errorClient.internalServerError();
 
   return {
-    statusCode: 201,
-    message: result,
+    id,
+    token: createToken({ id, email, name }),
   };
 };
 

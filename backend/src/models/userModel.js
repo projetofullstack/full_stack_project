@@ -22,9 +22,9 @@ const create = async (dataCreate) => {
 
 const getUserByEmail = async (userEmail) => {
   const query = 'SELECT * FROM user WHERE user_email = ?';
-  const [[result]] = await connection.execute(query, [userEmail]);
-  if (result === undefined) return null;
+  const [result] = await connection.execute(query, [userEmail]);
   if (Object.values(result).length === 0) return null;
+  if (result === undefined) return null;
   return result;
 };
 

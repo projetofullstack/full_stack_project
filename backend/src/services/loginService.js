@@ -1,7 +1,6 @@
 const CryptoJS = require('crypto-js');
 const { loginModel } = require('../models');
 const { loginSchema } = require('../schemas');
-const { createToken } = require('../auth');
 const { ErrorClient } = require('../utils');
 
 const { SECRET_CRYPTO } = process.env;
@@ -26,7 +25,6 @@ const login = async (dataLogin) => {
   }
 
   const { password } = dataLogin;
-  const { email, userName } = result;
 
   const decryptPassword = CryptoJS
     .AES
@@ -35,7 +33,7 @@ const login = async (dataLogin) => {
   if (decryptPassword === password) {
     return {
       statusCode: 200,
-      token: createToken({ email, userName }),
+      token: 'xablau',
     };
   }
 

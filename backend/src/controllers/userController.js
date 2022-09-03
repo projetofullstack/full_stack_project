@@ -6,7 +6,7 @@ const create = rescue(async (req, res) => {
   const result = await userService.create({ email, name, password });
 
   return res.status(result.statusCode).json({
-    id: result.message,
+    payload: result.payload,
   });
 });
 

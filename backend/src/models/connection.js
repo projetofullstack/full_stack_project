@@ -8,10 +8,10 @@ const {
 } = process.env;
 
 const connection = mysql2.createPool({
-  host: MYSQL_HOST || 'db',
-  user: MYSQL_USER || 'root',
-  password: MYSQL_PASSWORD || 'password',
-  database: MYSQL_DATABASE || 'fullstack_database',
+  host: MYSQL_HOST,
+  user: MYSQL_USER,
+  password: MYSQL_PASSWORD,
+  database: MYSQL_DATABASE,
 });
 
 // MYSQL_HOST é igual a db pois queremos o acesso a rede interna do Docker
