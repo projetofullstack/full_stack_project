@@ -6,14 +6,14 @@ const { ErrorClient } = require('../utils');
 const createToken = require('../auth/createToken');
 
 const create = async ({ email, name, password }) => {
+  console.log('Nossas informações no Service', email, name, password);
   const errorClient = new ErrorClient();
   const checkData = userSchema.validateCreateUser({ email, name, password });
   if (checkData.ok === false) throw errorClient.badRequest(checkData.message);
 
   const checkEmailDb = await userModel.getUserByEmail(email);
 
-  console.log(checkEmailDb);
-  // [null]
+  console.log('resposta da validação do id', checkEmailDb);
 
   if (checkEmailDb !== null) throw errorClient.conflict('Email já utilizado');
 

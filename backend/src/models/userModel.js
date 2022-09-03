@@ -21,6 +21,7 @@ const create = async (dataCreate) => {
 };
 
 const getUserByEmail = async (userEmail) => {
+  console.log('Nosso email no Model', userEmail);
   const query = 'SELECT * FROM user WHERE user_email = ?';
   const [result] = await connection.execute(query, [userEmail]);
   if (Object.values(result).length === 0) return null;

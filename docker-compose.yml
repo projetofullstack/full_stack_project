@@ -20,6 +20,7 @@ services:
       - backend
   backend:
     build: ./backend
+    env_file: ./backend/.env
     container_name: backend
     ports: 
       - "3001:3001"
@@ -36,13 +37,13 @@ services:
     depends_on:
       - db
   db:
+    env_file: .env
     image: mysql:5.7
+    platform: linux/x86_64
     restart: always
     ports:
-      - "3306:3306"
+      - "${PORT_DB}:${PORT_DB}"
     container_name: fullstack_db
-    environment:
-      MYSQL_ROOT_PASSWORD: 'password'
     networks: 
      - projeto-fullstack
 
