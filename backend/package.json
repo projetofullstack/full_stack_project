@@ -4,6 +4,9 @@
   "description": "joao",
   "main": "src/api/server",
   "scripts": {
+    "preStart": "npx sequelize db:create && npx sequelize db:migrate",
+    "seed": "npx sequelize db:seed:all",
+    "drop": "npx sequelize db:drop",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "dev": "nodemon .",
@@ -26,6 +29,8 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
+    "sequelize": "^6.21.4",
+    "sequelize-cli": "^6.4.1",
     "uuid": "^8.3.2"
   }
 }

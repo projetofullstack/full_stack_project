@@ -5,9 +5,7 @@ const create = rescue(async (req, res) => {
   const { email, name, password } = req.body;
   const result = await userService.create({ email, name, password });
 
-  return res.status(result.statusCode).json({
-    payload: result.payload,
-  });
+  return res.status(result.statusCode).json({ ...result.payload });
 });
 
 const deleteById = async (req, res, next) => {

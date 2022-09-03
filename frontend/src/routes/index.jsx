@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { Login, Main } from '../pages';
+import { Login, Main, Register } from '../pages';
 
 function MyRoutes() {
   return (
@@ -9,6 +9,7 @@ function MyRoutes() {
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route exact path="/main" element={<Main />} />
+        <Route exact path="/register" element={<Register />} />
       </Routes>
     </Router>
   );

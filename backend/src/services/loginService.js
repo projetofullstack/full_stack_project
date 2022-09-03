@@ -1,7 +1,8 @@
 const CryptoJS = require('crypto-js');
-const { loginModel } = require('../models');
+const { User } = require('../database/models');
 const { loginSchema } = require('../schemas');
 const { ErrorClient } = require('../utils');
+const createToken = require('../auth/createToken');
 
 const { SECRET_CRYPTO } = process.env;
 
@@ -14,26 +15,28 @@ const login = async (dataLogin) => {
     throw Gambler.badRequest(check.message);
   }
 
-  const result = await loginModel(dataLogin);
+  const { email, password } = dataLogin;
+
+  const result = await User.findOne({
+    where: { email },
+    raw: true,
+  });
 
   if (result === null) {
     throw Gambler.badRequest('User not found');
   }
 
-  if (result.error === true) {
-    throw Gambler.internalServerError();
-  }
+  const decrypt = CryptoJS.AES
+    .decrypt(result.password, SECRET_CRYPTO)
+    .toString(CryptoJS.enc.Utf8);
 
-  const { password } = dataLogin;
-
-  const decryptPassword = CryptoJS
-    .AES
-    .decrypt(result.userPassword, SECRET_CRYPTO).toString(CryptoJS.enc.Utf8);
-
-  if (decryptPassword === password) {
+  if (decrypt === password) {
     return {
       statusCode: 200,
-      token: 'xablau',
+      payload: {
+        id: result.id,
+        token: createToken({ id: result.id, name: result.name, email }),
+      },
     };
   }
 

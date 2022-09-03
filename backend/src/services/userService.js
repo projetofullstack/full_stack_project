@@ -1,9 +1,11 @@
-/* const { v4: uuidv4 } = require('uuid');
-const CryptoJS = require('crypto-js'); */
-const { userModel } = require('../models');
+const { v4: uuidv4 } = require('uuid');
+const CryptoJS = require('crypto-js');
+const { User } = require('../database/models');
 const { userSchema } = require('../schemas'); // validateCreateUser
 const { ErrorClient } = require('../utils');
 const createToken = require('../auth/createToken');
+
+const { SECRET_CRYPTO } = process.env;
 
 const create = async ({ email, name, password }) => {
   console.log('Nossas informações no Service', email, name, password);
@@ -11,19 +13,28 @@ const create = async ({ email, name, password }) => {
   const checkData = userSchema.validateCreateUser({ email, name, password });
   if (checkData.ok === false) throw errorClient.badRequest(checkData.message);
 
-  const checkEmailDb = await userModel.getUserByEmail(email);
+  const checkEmailDb = await User.findOne({
+    where: { email },
+  });
 
   console.log('resposta da validação do id', checkEmailDb);
 
   if (checkEmailDb !== null) throw errorClient.conflict('Email já utilizado');
 
-  const { id } = await userModel.create({ email, name, password });
+  const passwordEncript = CryptoJS.AES.encrypt(password, SECRET_CRYPTO).toString();
+
+  const { id } = await User.create({
+    email, name, password: passwordEncript, id: uuidv4(),
+  });
 
   if (id === undefined) throw errorClient.internalServerError();
 
   return {
-    id,
-    token: createToken({ id, email, name }),
+    statusCode: 201,
+    payload: {
+      id,
+      token: createToken({ id, email, name }),
+    },
   };
 };
 
@@ -36,7 +47,7 @@ const deleteById = async (dataId) => {
     };
   }
 
-  const result = await userModel.deleteById(dataId);
+  const result = await User.deleteById(dataId);
   if (result === null) {
     return {
       type: 'error',
@@ -60,7 +71,7 @@ const deleteById = async (dataId) => {
   };
 };
 
-const deleteByEmail = async (email) => userModel.deleteByEmail(email);
+const deleteByEmail = async (email) => User.deleteByEmail(email);
 
 module.exports = {
   create,

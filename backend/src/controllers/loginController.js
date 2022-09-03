@@ -6,8 +6,8 @@ const login = rescue(async (req, res) => {
 
   const result = await loginService({ email, password });
 
-  const { statusCode, token } = result;
-  return res.status(statusCode).json({ token });
+  const { statusCode, payload } = result;
+  return res.status(statusCode).json({ ...payload });
 });
 
 module.exports = { login };

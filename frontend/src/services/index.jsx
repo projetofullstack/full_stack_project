@@ -1,1 +1,1 @@
-export { singIn, singUp } from './apiFullStack';
+export { singIn, signUp } from './apiFullStack';

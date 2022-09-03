@@ -25,6 +25,7 @@ services:
     ports: 
       - "3001:3001"
     volumes:
+      - ./backend/.sequelizerc:/srv/backend/.sequelizerc
       - ./backend/src:/srv/backend/src
       - ./backend/package.json:/srv/backend/package.json
       - ./backend/package-lock.json:/srv/backend/package-lock.json
